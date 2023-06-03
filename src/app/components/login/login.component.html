@@ -6,7 +6,7 @@
                 <div class="panel-heading">
                     <h3 class="pt-3 font-weight-bold">Login</h3>
                 </div>
-                <div class="panel-body p-3">
+                <div class="panel-body p-3"> 
                     <form [formGroup]="loginForm">
                         <div class="form-group pt-3">
                          <div class="input-field" [class.error]="loginForm.controls['username'].dirty && loginForm.hasError('required','username')">
@@ -14,7 +14,7 @@
                                 <input formControlName="username" type="text" placeholder="Username">
                          </div>
                         </div>
-                        <small *ngIf="loginForm.controls['username'].dirty && loginForm.hasError('required','username')" class="text-danger">*Username is required.</small>
+                       <small *ngIf="loginForm.controls['username'].dirty && loginForm.controls['username'].dirty && loginForm.hasError('required','username')" class="text-danger">*Username is required.</small>
 
                         <div class="form-group pt-3">
                             <div class="input-field"  [class.error]="loginForm.controls['password'].dirty && loginForm.hasError('required','password')">

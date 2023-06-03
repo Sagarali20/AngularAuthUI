@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup,Validators } from '@angular/forms';
+import validateForm from 'src/app/helpers/validationform';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
 
     this.loginForm=this.fb.group({  
     
-      username:['',Validators.required],
+      username:['',[Validators.required,Validators.minLength(10)]],
       password :['',Validators.required]
     })
   }
@@ -41,32 +42,17 @@ export class LoginComponent implements OnInit {
     if(this.loginForm.valid)
     {
        //database
+
+       console.log(this.loginForm.value)
     }
     else{
 
-      this.ValidateAllFromField(this.loginForm);
+      validateForm.ValidateAllFromField(this.loginForm);
 
     }
 
   }
 
-  private ValidateAllFromField(formgroup:FormGroup)
-  {
 
-    Object.keys(formgroup.controls).forEach(field =>{
-
-      const controls=formgroup.get(field);
-
-      if(controls instanceof FormControl)
-      {
-         controls.markAsDirty({onlySelf:true});
-      }
-      else if(controls instanceof FormGroup){
-             
-        this.ValidateAllFromField(controls);
-      }
-    })
-
-  }
 
 }
