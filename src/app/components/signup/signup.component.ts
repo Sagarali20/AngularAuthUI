@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder,FormControl,FormGroup, Validators } from '@angular/forms';
 import { single } from 'rxjs';
 import validateForm from 'src/app/helpers/validationform';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -16,7 +17,7 @@ export class SignupComponent implements OnInit {
 
   repeatpass:string ='none';
 
-constructor(private fb:FormBuilder){}
+constructor(private authService: AuthService  ){}
 
   ngOnInit(): void {
 
@@ -57,6 +58,8 @@ constructor(private fb:FormBuilder){}
       if(this.Password.value==this.Rewp.value)
       {
         console.log(this.signup.value);
+
+         this.authService.signUp(this.signup) ;       
       }
       else{
         this.repeatpass='inline';
