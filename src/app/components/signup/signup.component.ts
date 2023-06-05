@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder,FormControl,FormGroup, Validators } from '@angular/forms';
+import { Route, Router } from '@angular/router';
 import { single } from 'rxjs';
 import validateForm from 'src/app/helpers/validationform';
+import { User } from 'src/app/models/User';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -17,7 +19,7 @@ export class SignupComponent implements OnInit {
 
   repeatpass:string ='none';
 
-constructor(private authService: AuthService  ){}
+constructor(private authService: AuthService,private user:User,private router:Router ){}
 
   ngOnInit(): void {
 
@@ -41,7 +43,7 @@ constructor(private authService: AuthService  ){}
     phone: new  FormControl("",[Validators.required,Validators.minLength(10),Validators.maxLength(11),Validators.pattern("[0-9]*")]),
 
     username: new FormControl("",[Validators.required]),
-    password: new FormControl("",[Validators.required,Validators.minLength(5),Validators.maxLength(15)]),
+    password: new FormControl("",[Validators.required,Validators.minLength(1),Validators.maxLength(15)]),
     email: new FormControl("",[Validators.required,Validators.email]),
     rewp:new FormControl("",Validators.required)
   })
@@ -59,7 +61,26 @@ constructor(private authService: AuthService  ){}
       {
         console.log(this.signup.value);
 
-         this.authService.signUp(this.signup) ;       
+        this.user.FirstName=this.Firstname.value;
+        this.user.LastName=this.Lastname.value;
+        this.user.Username=this.Username.value;
+        this.user.Password=this.Password.value;
+        this.user.Email=this.Email.value;
+
+
+
+
+         this.authService.signUp(this.user).subscribe({
+
+          next:(res=>{
+            this.signup.reset();
+            this.router.navigate(['login']);
+             console.log(res.message)
+          }),
+          error:(err=>{
+               console.log(err.error.message)
+          })
+         })      
       }
       else{
         this.repeatpass='inline';
