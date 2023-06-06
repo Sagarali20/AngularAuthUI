@@ -18,6 +18,8 @@ export class SignupComponent implements OnInit {
   eyeicon:string="fa-eye-slash" 
 
   repeatpass:string ='none';
+  email  :string ='none';
+
 
 constructor(private authService: AuthService,private user:User,private router:Router ){}
 
@@ -41,11 +43,10 @@ constructor(private authService: AuthService,private user:User,private router:Ro
     firstname: new  FormControl("",[Validators.required,Validators.minLength(2),Validators.pattern("[a-zA-Z].*")]),
     lastname: new  FormControl("",[Validators.required,Validators.minLength(2),Validators.pattern("[a-zA-Z].*")]),
     phone: new  FormControl("",[Validators.required,Validators.minLength(10),Validators.maxLength(11),Validators.pattern("[0-9]*")]),
-
     username: new FormControl("",[Validators.required]),
     password: new FormControl("",[Validators.required,Validators.minLength(1),Validators.maxLength(15)]),
     email: new FormControl("",[Validators.required,Validators.email]),
-    rewp:new FormControl("",Validators.required)
+    rewp:new FormControl("",Validators.required) 
   })
 
   SingnupSubmited()
@@ -73,9 +74,17 @@ constructor(private authService: AuthService,private user:User,private router:Ro
          this.authService.signUp(this.user).subscribe({
 
           next:(res=>{
+            if(res.result)
+            {
             this.signup.reset();
             this.router.navigate(['login']);
-             console.log(res.message)
+            }
+            if(!res.result){
+               this.email="inline";;
+               console.log(res.message)
+
+            }
+
           }),
           error:(err=>{
                console.log(err.error.message)
