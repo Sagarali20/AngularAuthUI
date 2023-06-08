@@ -19,4 +19,22 @@ export class AuthService {
   { 
     return this.http.post<any>(`${this.baseUrl}authenticate`,loginobj);
   }
+
+  storeToken(tokenvalue:string)
+  {
+        localStorage.setItem('token',tokenvalue);
+  }
+  getToken()
+  {
+    return localStorage.getItem('token');
+  }
+
+  isLoggedIn():boolean
+  { 
+    return !!localStorage.getItem('token');
+  }
+  signOut()
+  {
+    localStorage.clear();
+  }
 }

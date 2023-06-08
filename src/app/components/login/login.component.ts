@@ -41,28 +41,25 @@ export class LoginComponent implements OnInit {
 
   onsubmit()
   {
-
-
     if(this.loginForm.valid)
-    {
-    
+    {   
       this.authService.logIn(this.loginForm.value).subscribe({
         next:(res) =>{
           console.log(res);
           if(res.result)
           {
-            this.toast.success({detail:"SUCCESS",summary:res.message,duration:3000});
 
+            console.log(res.token);
+            this.authService.storeToken(res.token);
+            this.toast.success({detail:"SUCCESS",summary:res.message,duration:3000});
              this.router.navigate(['dashboard']);
           }
-
-        },
+        }, 
         error:(err)=>{
           this.toast.error({detail:"ERROR",summary:err.error.message,duration:3000});
           console.log(err);
-
         }
-      })
+      })  
        //database
 
        console.log(this.loginForm.value)
