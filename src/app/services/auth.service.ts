@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http'
+import {HttpClient} from '@angular/common/http';
+import {JwtHelperService} from '@auth0/angular-jwt';
 @Injectable({
   providedIn: 'root'
 })
@@ -7,7 +8,15 @@ export class AuthService {
 
   private baseUrl:string ='http://localhost:5275/api/User/';
 
-  constructor(private http: HttpClient) { }
+  private userPayload:any;
+
+  constructor(private http: HttpClient) {
+
+    this.userPayload=this.deCodedToken();
+    console.log("sagar");
+
+    console.log(this.userPayload);
+   }
 
   signUp(userObj:any)
   {
@@ -36,5 +45,21 @@ export class AuthService {
   signOut()
   {
     localStorage.clear();
+  }
+  deCodedToken()
+  {
+    const jwthelper= new JwtHelperService();
+    const token = this.getToken()!;
+    return jwthelper.decodeToken(token);
+  }
+  getfullnameFromtoken()
+  {
+     if(this.userPayload)
+     return this.userPayload.unique_name;
+  }
+  getroleFromToken()
+  {
+    if(this.userPayload)
+    return this.userPayload.roel;
   }
 }

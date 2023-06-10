@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { APIService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserStoreService } from 'src/app/services/user-store.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +13,9 @@ export class DashboardComponent implements OnInit {
  
   public Users:any=[];
 
-  constructor(private api:APIService ,private router:Router,private auth:AuthService){}
+  public fullname:string="";
+
+  constructor(private api:APIService ,private router:Router,private auth:AuthService,private userstore:UserStoreService){}
 
   ngOnInit(): void {
 
@@ -21,6 +24,13 @@ export class DashboardComponent implements OnInit {
         this.Users=res;
        });
 
+       this.userstore.getFullNameFromStore().subscribe(val =>{
+
+          let fullnameFromToken = this.auth.getfullnameFromtoken();
+          this.fullname=val || fullnameFromToken;
+       
+       })
+       console.log(this.fullname);
   
   }
 

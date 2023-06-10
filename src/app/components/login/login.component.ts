@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import validateForm from 'src/app/helpers/validationform';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserStoreService } from 'src/app/services/user-store.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,12 @@ export class LoginComponent implements OnInit {
   istext :boolean=false;
   eyeicon:string="fa-eye-slash" 
   loginForm!: FormGroup;
- constructor( private fb:FormBuilder,private authService :AuthService,private router:Router,private toast:NgToastService)
+ constructor(
+   private fb:FormBuilder,
+   private authService :AuthService,
+   private router:Router,
+   private toast:NgToastService,
+   private userstore:UserStoreService)
  {
 
 
@@ -51,6 +57,9 @@ export class LoginComponent implements OnInit {
 
             console.log(res.token);
             this.authService.storeToken(res.token);
+
+            let tokenPayload=this.authService.deCodedToken();
+            this.userstore.setFullNameFromStore(tokenPayload.);
             this.toast.success({detail:"SUCCESS",summary:res.message,duration:3000});
              this.router.navigate(['dashboard']);
           }
