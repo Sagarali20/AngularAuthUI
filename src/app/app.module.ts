@@ -31,7 +31,8 @@ import { TokenInterceptor } from './interceptor/token.interceptor';
   useClass:TokenInterceptor,
   multi:true
 
-  }],
+  },User],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

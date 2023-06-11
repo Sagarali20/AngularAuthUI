@@ -56,17 +56,19 @@ export class LoginComponent implements OnInit {
           {
 
             console.log(res.token);
-            this.authService.storeToken(res.token);
-
+            this.authService.storeToken(res.accesstoken);
             let tokenPayload=this.authService.deCodedToken();
-            this.userstore.setFullNameFromStore(tokenPayload.);
+            this.userstore.setFullNameFromStore(tokenPayload.unique_name);
+            this.userstore.SetRoleFromStore(tokenPayload.role);
+
             this.toast.success({detail:"SUCCESS",summary:res.message,duration:3000});
-             this.router.navigate(['dashboard']);
+            this.router.navigate(['dashboard']);
           }
         }, 
         error:(err)=>{
-          this.toast.error({detail:"ERROR",summary:err.error.message,duration:3000});
+          // this.toast.error({detail:"ERROR",summary:err.error.message,duration:3000});
           console.log(err);
+
         }
       })  
        //database

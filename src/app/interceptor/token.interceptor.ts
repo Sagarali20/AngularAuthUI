@@ -30,6 +30,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   return next.handle(request).pipe(
       catchError((err:any)=>{
+        console.log(err);
         if(err instanceof HttpErrorResponse)
         {
           if(err.status === 401)
@@ -37,6 +38,12 @@ export class TokenInterceptor implements HttpInterceptor {
             this.toast.warning({detail:"warning",summary:"Token is expried, Login again"});
             this.router.navigate(['login']);
           }
+          if(err.status===400 || err.status===404)
+          {
+            this.toast.error({detail:"ERROR",summary:err.error.message,duration:3000});
+
+          }
+
         }
         return throwError(()=>new Error("Some other error occured"));
       })

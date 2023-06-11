@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
   public Users:any=[];
 
   public fullname:string="";
+  public role:string="";
 
   constructor(private api:APIService ,private router:Router,private auth:AuthService,private userstore:UserStoreService){}
 
@@ -30,7 +31,14 @@ export class DashboardComponent implements OnInit {
           this.fullname=val || fullnameFromToken;
        
        })
-       console.log(this.fullname);
+
+       this.userstore.getRoleFromStore().subscribe(val =>{
+      
+        let userrole=this.auth.getroleFromToken();
+        this.role=val || userrole;
+
+       })
+       console.log(this.role);
   
   }
 
