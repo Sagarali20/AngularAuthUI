@@ -21,8 +21,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
 
        this.api.getUser().subscribe(res =>{
-        console.log(res.users);
-        this.Users=res;
+        console.log(res);
+        this.Users=res.users;
        });
 
        this.userstore.getFullNameFromStore().subscribe(val =>{
@@ -36,10 +36,15 @@ export class DashboardComponent implements OnInit {
       
         let userrole=this.auth.getroleFromToken();
         this.role=val || userrole;
+         
+        console.log("rolestart");
+        console.log(val);
+        console.log(userrole);
 
        })
-       console.log(this.role);
-  
+
+       console.log(this.Users);
+ 
   }
 
   Logout()
