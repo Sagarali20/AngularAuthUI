@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { APIService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -9,7 +9,7 @@ import { UserStoreService } from 'src/app/services/user-store.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
  
   public Users:any=[];
 
@@ -28,6 +28,7 @@ export class DashboardComponent implements OnInit {
        this.userstore.getFullNameFromStore().subscribe(val =>{
 
           let fullnameFromToken = this.auth.getfullnameFromtoken();
+
           this.fullname=val || fullnameFromToken;
        
        })
@@ -46,6 +47,23 @@ export class DashboardComponent implements OnInit {
        console.log(this.Users);
  
   }
+  ngAfterViewInit() {
+    this.loadScript('assets/libs/jquery/dist/jquery.min.js', () => {
+      this.loadScript('assets/libs/apexcharts/dist/apexcharts.min.js', () => {
+        this.loadScript('assets/js/dashboard.js', () => {
+          // Callback after loading all three scripts
+        });
+      });
+    });
+  }
+
+  private loadScript(src: string, callback: () => void) {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = callback;
+    document.body.appendChild(script);
+  }
+  
 
   Logout()
   { 
